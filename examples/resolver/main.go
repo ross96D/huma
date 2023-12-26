@@ -13,9 +13,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
 	"github.com/go-chi/chi/v5"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/adapters/humachi"
 )
 
 // Options for the CLI.

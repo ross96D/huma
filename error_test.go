@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/humatest"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/humatest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

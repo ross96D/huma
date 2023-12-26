@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/danielgtaylor/huma/v2"
 	"github.com/gofiber/fiber/v2"
+	"github.com/ross96D/huma"
 )
 
 type fiberCtx struct {

@@ -4,10 +4,10 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
-	"github.com/danielgtaylor/huma/v2/sse"
 	"github.com/go-chi/chi/v5"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/adapters/humachi"
+	"github.com/ross96D/huma/sse"
 )
 
 func ExampleRegister_sse() {

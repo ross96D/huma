@@ -8,8 +8,8 @@ import (
 	"testing"
 	"testing/iotest"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/humatest"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/humatest"
 	"github.com/stretchr/testify/assert"
 )
 

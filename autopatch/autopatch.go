@@ -19,9 +19,9 @@ import (
 	"strings"
 
 	"github.com/danielgtaylor/casing"
-	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/shorthand/v2"
 	jsonpatch "github.com/evanphx/json-patch/v5"
+	"github.com/ross96D/huma"
 )
 
 // jsonPatchOp describes an RFC 6902 JSON Patch operation. See also:

@@ -13,9 +13,9 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
 	"github.com/go-chi/chi/v5"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/adapters/humachi"
 )
 
 // TB is a subset of the `testing.TB` interface used by the test API and

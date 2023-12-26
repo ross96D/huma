@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/danielgtaylor/huma/v2/negotiation"
 	"github.com/goccy/go-yaml"
+	"github.com/ross96D/huma/negotiation"
 )
 
 var rxSchema = regexp.MustCompile(`#/components/schemas/([^"]+)`)
