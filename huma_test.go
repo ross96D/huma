@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/http/httputil"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -1915,4 +1916,54 @@ func TestGenerateFuncsPanicWithDescriptiveMessage(t *testing.T) {
 		huma.GenerateSummary("GET", "/foo", resp)
 	})
 
+}
+
+type Nullable[T any] struct {
+	Null  bool
+	Value T
+}
+
+func (o *Nullable[T]) HumaInputParamConvert(b []byte) (any, error) {
+	err := o.UnmarshalText(b)
+	return o.Value, err
+}
+
+func (o Nullable[T]) Schema(r huma.Registry) *huma.Schema {
+	return r.Schema(reflect.TypeOf(o.Value), true, "")
+}
+
+func (o *Nullable[T]) UnmarshalText(b []byte) error {
+	o.Null = true
+	if len(b) == 0 {
+		o.Null = true
+		return nil
+	}
+	var temp T // Create a temporary variable of type T
+	err := json.Unmarshal(b, &temp)
+	if err != nil {
+		return err
+	}
+	o.Value = temp
+	o.Null = false
+	return nil
+}
+
+type TestCustomQueryParamInput struct {
+	Query Nullable[int] `query:"query"`
+}
+
+func TestCustomQueryParam(t *testing.T) {
+	r, app := humatest.New(t, huma.DefaultConfig("Test API", "1.0.0"))
+	huma.Register(app, huma.Operation{
+		OperationID: "test",
+		Method:      http.MethodGet,
+		Path:        "/custom_query_param",
+	}, func(ctx context.Context, input *TestCustomQueryParamInput) (*struct{}, error) {
+		return nil, nil
+	})
+
+	req, _ := http.NewRequest(http.MethodGet, "/custom_query_param?query=2", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.Equal(t, 204, w.Code)
 }
