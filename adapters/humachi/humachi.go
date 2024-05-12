@@ -24,9 +24,6 @@ type chiContext struct {
 	status int
 }
 
-// check that chiContext implements huma.Context
-var _ huma.Context = &chiContext{}
-
 func (c *chiContext) Operation() *huma.Operation {
 	return c.op
 }
@@ -48,7 +45,6 @@ func (c *chiContext) URL() url.URL {
 }
 
 func (c *chiContext) Param(name string) string {
-	// TODO: switch to c.r.PathValue when go.mod requires go >= 1.22
 	return chi.URLParam(c.r, name)
 }
 
@@ -107,26 +103,71 @@ func NewContext(op *huma.Operation, r *http.Request, w http.ResponseWriter) huma
 	return &chiContext{op: op, r: r, w: w}
 }
 
-type chiAdapter struct {
-	router chi.Router
-}
-
-func (a *chiAdapter) Handle(op *huma.Operation, handler func(huma.Context)) {
+var defaultHandler = func(a *chiAdapter, op *huma.Operation, handler func(huma.Context)) {
 	a.router.MethodFunc(op.Method, op.Path, func(w http.ResponseWriter, r *http.Request) {
 		handler(&chiContext{op: op, r: r, w: w})
 	})
+}
+
+type params struct {
+	op      *huma.Operation
+	handler func(huma.Context)
+}
+
+type chiAdapter struct {
+	router   chi.Router
+	route    func(a *chiAdapter, op *huma.Operation, handler func(huma.Context))
+	handlers []params
+}
+
+func (a *chiAdapter) Handle(op *huma.Operation, handler func(huma.Context)) {
+	// a.router.MethodFunc(op.Method, op.Path, func(w http.ResponseWriter, r *http.Request) {
+	// 	handler(&chiContext{op: op, r: r, w: w})
+	// })
+	a.route(a, op, handler)
 }
 
 func (a *chiAdapter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	a.router.ServeHTTP(w, r)
 }
 
+// fn is a function that register all the operations registrations with the given middleware
+func (a *chiAdapter) Group(fn func(), middlewares ...func(http.Handler) http.Handler) {
+	a.route = func(c *chiAdapter, op *huma.Operation, handler func(huma.Context)) {
+		if c.handlers == nil {
+			c.handlers = make([]params, 0)
+		}
+		c.handlers = append(c.handlers, params{op: op, handler: handler})
+	}
+	defer func() {
+		a.route = defaultHandler
+	}()
+
+	fn()
+	if a.handlers == nil {
+		return
+	}
+	defer func() {
+		a.handlers = a.handlers[0:0]
+	}()
+
+	a.router.Group(func(r chi.Router) {
+		r.Use(middlewares...)
+		for i := 0; i < len(a.handlers); i++ {
+			h := a.handlers[i]
+			r.MethodFunc(h.op.Method, h.op.Path, func(w http.ResponseWriter, r *http.Request) {
+				h.handler(&chiContext{op: h.op, r: r, w: w})
+			})
+		}
+	})
+}
+
 // NewAdapter creates a new adapter for the given chi router.
-func NewAdapter(r chi.Router) huma.Adapter {
-	return &chiAdapter{router: r}
+func NewAdapter(r chi.Router) chiAdapter {
+	return chiAdapter{router: r, route: defaultHandler}
 }
 
 // New creates a new Huma API using the latest v5.x.x version of Chi.
 func New(r chi.Router, config huma.Config) huma.API {
-	return huma.NewAPI(config, &chiAdapter{router: r})
+	return huma.NewAPI(config, &chiAdapter{router: r, route: defaultHandler})
 }
