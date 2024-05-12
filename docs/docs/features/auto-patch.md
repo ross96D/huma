@@ -21,9 +21,9 @@ If the `GET` returns an `ETag` or `Last-Modified` header, then these will be use
 
 The following formats are supported out of the box, selected via the `Content-Type` header:
 
--   [JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7386) `application/merge-patch+json`
--   [Shorthand Merge Patch](https://rest.sh/#/shorthand?id=patch-partial-update) `application/merge-patch+shorthand`
--   [JSON Patch](https://www.rfc-editor.org/rfc/rfc6902.html) `application/json-patch+json`
+- [JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7386) `application/merge-patch+json`
+- [Shorthand Merge Patch](https://rest.sh/#/shorthand?id=patch-partial-update) `application/merge-patch+shorthand`
+- [JSON Patch](https://www.rfc-editor.org/rfc/rfc6902.html) `application/json-patch+json`
 
 !!! info "Merge on Steroids"
 
@@ -31,7 +31,7 @@ The following formats are supported out of the box, selected via the `Content-Ty
 
     ```yaml
     {
-    	foo.bar[]: "baz",
+     foo.bar[]: "baz",
     }
     ```
 
@@ -44,24 +44,24 @@ The auto patch feature can be disabled per resource by setting metadata on an op
 ```go title="code.go" hl_lines="7-9"
 // Register an operation that won't get a PATCH generated.
 huma.Register(api, huma.Operation{
-	OperationID: "get-greeting",
-	Method:      http.MethodGet,
-	Path:        "/greeting/{name}",
-	Summary:     "Get a greeting",
-	Metadata: map[string]interface{}{
-		"autopatch": false,
-	},
+ OperationID: "get-greeting",
+ Method:      http.MethodGet,
+ Path:        "/greeting/{name}",
+ Summary:     "Get a greeting",
+ Metadata: map[string]interface{}{
+  "autopatch": false,
+ },
 }, func(ctx context.Context, input *GreetingInput) (*GreetingOutput, error) {
-	// ...
+ // ...
 })
 ```
 
 ## Dive Deeper
 
--   Reference
-    -   [`autopatch`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/autopatch) package
--   External Links
-    -   [HTTP PATCH Method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH)
-    -   [RFC7386 JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7386)
-    -   [Shorthand Merge Patch](https://rest.sh/#/shorthand?id=patch-partial-update)
-    -   [RFC6902 JSON Patch](https://www.rfc-editor.org/rfc/rfc6902.html)
+- Reference
+  - [`autopatch`](https://pkg.go.dev/github.com/ross96D/huma/autopatch) package
+- External Links
+  - [HTTP PATCH Method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH)
+  - [RFC7386 JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7386)
+  - [Shorthand Merge Patch](https://rest.sh/#/shorthand?id=patch-partial-update)
+  - [RFC6902 JSON Patch](https://www.rfc-editor.org/rfc/rfc6902.html)

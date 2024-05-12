@@ -13,16 +13,16 @@ Huma has support for two variants of middleware:
 
 ```mermaid
 graph LR
-	Request([Request])
-	RouterSpecificMiddleware[Router-Specific Middleware]
-	HumaMiddleware[Huma Middleware]
-	OperationHandler[Operation Handler]
+ Request([Request])
+ RouterSpecificMiddleware[Router-Specific Middleware]
+ HumaMiddleware[Huma Middleware]
+ OperationHandler[Operation Handler]
 
-	Request --> RouterSpecificMiddleware
-	RouterSpecificMiddleware --> HumaMiddleware
-	subgraph Huma
-		HumaMiddleware --> OperationHandler
-	end
+ Request --> RouterSpecificMiddleware
+ RouterSpecificMiddleware --> HumaMiddleware
+ subgraph Huma
+  HumaMiddleware --> OperationHandler
+ end
 ```
 
 ## Router-specific
@@ -47,7 +47,7 @@ api := humafiber.New(app, huma.DefaultConfig("My API", "1.0.0"))
 
 !!! info "Huma v1"
 
-    Huma v1 middleware is compatible with Chi v4, so if you use that router with Huma v2 you can continue to use the Huma v1 middleware. See [`humachi.NewV4`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/adapters/humachi#NewV4).
+    Huma v1 middleware is compatible with Chi v4, so if you use that router with Huma v2 you can continue to use the Huma v1 middleware. See [`humachi.NewV4`](https://pkg.go.dev/github.com/ross96D/huma/adapters/humachi#NewV4).
 
 ## Router-agnostic
 
@@ -57,18 +57,18 @@ Example:
 
 ```go title="code.go"
 func MyMiddleware(ctx huma.Context, next func(huma.Context)) {
-	// Set a custom header on the response.
-	ctx.SetHeader("My-Custom-Header", "Hello, world!")
+ // Set a custom header on the response.
+ ctx.SetHeader("My-Custom-Header", "Hello, world!")
 
-	// Call the next middleware in the chain. This eventually calls the
-	// operation handler as well.
-	next(ctx)
+ // Call the next middleware in the chain. This eventually calls the
+ // operation handler as well.
+ next(ctx)
 }
 
 func NewHumaAPI() huma.API {
-	// ...
-	api := humachi.New(router, config)
-	api.UseMiddleware(MyMiddleware)
+ // ...
+ api := humachi.New(router, config)
+ api.UseMiddleware(MyMiddleware)
 }
 ```
 
@@ -78,51 +78,51 @@ The `huma.Context` interface provides a `Context()` method to retrieve the under
 
 ```go title="code.go"
 if v, ok := ctx.Context().Value("some-key").(string); ok {
-	// Do something with `v`!
+ // Do something with `v`!
 }
 ```
 
-You can also wrap the `huma.Context` to provide additional or override functionality. Some utilities are provided for this, including [`huma.WithValue`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#WithValue):
+You can also wrap the `huma.Context` to provide additional or override functionality. Some utilities are provided for this, including [`huma.WithValue`](https://pkg.go.dev/github.com/ross96D/huma#WithValue):
 
 ```go title="code.go"
 func MyMiddleware(ctx huma.Context, next func(huma.Context)) {
-	// Wrap the context to add a value.
-	ctx = huma.WithValue(ctx, "some-key", "some-value")
+ // Wrap the context to add a value.
+ ctx = huma.WithValue(ctx, "some-key", "some-value")
 
-	// Call the next middleware in the chain. This eventually calls the
-	// operation handler as well.
-	next(ctx)
+ // Call the next middleware in the chain. This eventually calls the
+ // operation handler as well.
+ next(ctx)
 }
 ```
 
 ### Cookies
 
-You can use the `huma.Context` interface along with [`huma.ReadCookie`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#ReadCookie) or [`huma.ReadCookies`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#ReadCookies) to access cookies from middleware, and can also write cookies by adding `Set-Cookie` headers in the response:
+You can use the `huma.Context` interface along with [`huma.ReadCookie`](https://pkg.go.dev/github.com/ross96D/huma#ReadCookie) or [`huma.ReadCookies`](https://pkg.go.dev/github.com/ross96D/huma#ReadCookies) to access cookies from middleware, and can also write cookies by adding `Set-Cookie` headers in the response:
 
 ```go
 func MyMiddleware(ctx huma.Context, next func(huma.Context)) {
-	// Read a cookie by name.
-	sessionCookie := huma.ReadCookie(ctx, "session")
-	fmt.Println(sessionCookie)
+ // Read a cookie by name.
+ sessionCookie := huma.ReadCookie(ctx, "session")
+ fmt.Println(sessionCookie)
 
-	// Read all the cookies from the request.
-	cookies := huma.ReadCookies(ctx)
-	fmt.Println(cookies)
+ // Read all the cookies from the request.
+ cookies := huma.ReadCookies(ctx)
+ fmt.Println(cookies)
 
-	// Set a cookie in the response. Using `ctx.AppendHeader` won't overwrite
-	// any existing headers, for example if other middleware might also set
-	// headers or if this code were moved after the `next` call and the operation
-	// might set the same header. You can also call `ctx.AppendHeader` multiple
-	// times to write more than one cookie.
-	cookie := http.Cookie{
-		Name:  "session",
-		Value: "123",
-	}
-	ctx.AppendHeader("Set-Cookie", cookie.String())
+ // Set a cookie in the response. Using `ctx.AppendHeader` won't overwrite
+ // any existing headers, for example if other middleware might also set
+ // headers or if this code were moved after the `next` call and the operation
+ // might set the same header. You can also call `ctx.AppendHeader` multiple
+ // times to write more than one cookie.
+ cookie := http.Cookie{
+  Name:  "session",
+  Value: "123",
+ }
+ ctx.AppendHeader("Set-Cookie", cookie.String())
 
-	// Call the next middleware in the chain. This eventually calls the
-	// operation handler as well.
-	next(ctx)
+ // Call the next middleware in the chain. This eventually calls the
+ // operation handler as well.
+ next(ctx)
 }
 ```
 
@@ -130,51 +130,51 @@ func MyMiddleware(ctx huma.Context, next func(huma.Context)) {
 
 If your middleware encounters an error, you can stop the processing of the next middleware or operation handler by skipping the call to `next` and writing an error response.
 
-The [`huma.WriteErr(api, ctx, status, message, ...error)`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#WriteErr) function can be used to write nice structured error responses which respect client-driven content negotiation for marshaling:
+The [`huma.WriteErr(api, ctx, status, message, ...error)`](https://pkg.go.dev/github.com/ross96D/huma#WriteErr) function can be used to write nice structured error responses which respect client-driven content negotiation for marshaling:
 
 ```go title="code.go"
 func MyMiddleware(ctx huma.Context, next func(ctx huma.Context)) {
-	// If there is a query parameter "error=true", then return an error
-	if ctx.Query("error") == "true" {
-		huma.WriteErr(api, ctx, http.StatusInternalServerError,
-			"Some friendly message", fmt.Errorf("error detail"),
-		)
-		return
-	}
+ // If there is a query parameter "error=true", then return an error
+ if ctx.Query("error") == "true" {
+  huma.WriteErr(api, ctx, http.StatusInternalServerError,
+   "Some friendly message", fmt.Errorf("error detail"),
+  )
+  return
+ }
 
-	// Otherwise, just continue as normal.
-	next(ctx)
+ // Otherwise, just continue as normal.
+ next(ctx)
 })
 ```
 
 !!! info "Error Details"
 
-    The [`huma.ErrorDetail`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#ErrorDetail) struct can be used to provide more information about the error, such as the location of the error and the value which was seen.
+    The [`huma.ErrorDetail`](https://pkg.go.dev/github.com/ross96D/huma#ErrorDetail) struct can be used to provide more information about the error, such as the location of the error and the value which was seen.
 
 ### Operations
 
-You can also add router-agnostic middleware to individual operations by setting the [`huma.Operation.Middlewares`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Operation) field. This middleware will run after the router-specific middleware and before the operation handler.
+You can also add router-agnostic middleware to individual operations by setting the [`huma.Operation.Middlewares`](https://pkg.go.dev/github.com/ross96D/huma#Operation) field. This middleware will run after the router-specific middleware and before the operation handler.
 
 ```go title="code.go"
 func MyMiddleware(ctx huma.Context, next func(huma.Context)) {
-	// Call the next middleware in the chain. This eventually calls the
-	// operation handler as well.
-	next(ctx)
+ // Call the next middleware in the chain. This eventually calls the
+ // operation handler as well.
+ next(ctx)
 }
 
 func main() {
-	// ...
-	api := humachi.New(router, config)
+ // ...
+ api := humachi.New(router, config)
 
-	huma.Register(api, huma.Operation{
-		OperationID: "demo",
-		Method:      http.MethodGet,
-		Path:        "/demo",
-		Middlewares: huma.Middlewares{MyMiddleware},
-	}, func(ctx context.Context, input *MyInput) (*MyOutput, error) {
-		// TODO: implement handler...
-		return nil, nil
-	})
+ huma.Register(api, huma.Operation{
+  OperationID: "demo",
+  Method:      http.MethodGet,
+  Path:        "/demo",
+  Middlewares: huma.Middlewares{MyMiddleware},
+ }, func(ctx context.Context, input *MyInput) (*MyOutput, error) {
+  // TODO: implement handler...
+  return nil, nil
+ })
 }
 ```
 
@@ -182,10 +182,10 @@ It's also possible for global middleware to run only for certain paths by checki
 
 ## Dive Deeper
 
--   Reference
-    -   [`huma.Context`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Context) a router-agnostic request/response context
-    -   [`huma.Middlewares`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Middlewares) the API instance
-    -   [`huma.ReadCookie`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#ReadCookie) reads a named cookie from a request
-    -   [`huma.ReadCookies`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#ReadCookies) reads cookies from a request
-    -   [`huma.WriteErr`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#WriteErr) function to write error responses
-    -   [`huma.API`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#API) the API instance
+- Reference
+  - [`huma.Context`](https://pkg.go.dev/github.com/ross96D/huma#Context) a router-agnostic request/response context
+  - [`huma.Middlewares`](https://pkg.go.dev/github.com/ross96D/huma#Middlewares) the API instance
+  - [`huma.ReadCookie`](https://pkg.go.dev/github.com/ross96D/huma#ReadCookie) reads a named cookie from a request
+  - [`huma.ReadCookies`](https://pkg.go.dev/github.com/ross96D/huma#ReadCookies) reads cookies from a request
+  - [`huma.WriteErr`](https://pkg.go.dev/github.com/ross96D/huma#WriteErr) function to write error responses
+  - [`huma.API`](https://pkg.go.dev/github.com/ross96D/huma#API) the API instance

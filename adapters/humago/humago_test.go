@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/danielgtaylor/huma/v2"
+	"github.com/ross96D/huma"
 )
 
 var lastModified = time.Now()

@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
 	"github.com/go-chi/chi/v5"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/adapters/humachi"
 
-	_ "github.com/danielgtaylor/huma/v2/formats/cbor"
+	_ "github.com/ross96D/huma/formats/cbor"
 )
 
 type MyError struct {

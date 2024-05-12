@@ -21,9 +21,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
-	"github.com/danielgtaylor/huma/v2/humatest"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/adapters/humachi"
+	"github.com/ross96D/huma/humatest"
 )
 
 var NewExampleAdapter = humatest.NewAdapter

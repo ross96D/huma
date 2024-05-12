@@ -4,7 +4,7 @@ description: Generate JSON Schemas from your Go structs and use them to validate
 
 ## JSON Schema
 
-Using the default Huma config (or manually via the [`huma.SchemaLinkTransformer`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#SchemaLinkTransformer)), each resource operation returns a `describedby` HTTP link relation header which references a JSON-Schema file. These schemas use the [`config.SchemasPath`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Config) to serve their content. For example:
+Using the default Huma config (or manually via the [`huma.SchemaLinkTransformer`](https://pkg.go.dev/github.com/ross96D/huma#SchemaLinkTransformer)), each resource operation returns a `describedby` HTTP link relation header which references a JSON-Schema file. These schemas use the [`config.SchemasPath`](https://pkg.go.dev/github.com/ross96D/huma#Config) to serve their content. For example:
 
 ```http title="HTTP Response"
 Link: </schemas/Note.json>; rel="describedby"
@@ -14,10 +14,10 @@ Object resources (i.e. not arrays or simple scalars) can also optionally return 
 
 ```json title="response.json"
 {
-	"$schema": "http://localhost:8888/schemas/Note.json",
-	"title": "I am a note title",
-	"contents": "Example note contents",
-	"labels": ["todo"]
+ "$schema": "http://localhost:8888/schemas/Note.json",
+ "title": "I am a note title",
+ "contents": "Example note contents",
+ "labels": ["todo"]
 }
 ```
 
@@ -35,24 +35,24 @@ The default schema implementation uses a `map` to store schemas by name,generate
 
 !!! warning "Schema Names"
 
-    Note that by design the default registry does **not** support multiple models with the same name in different packages. For example, adding both `foo.Thing` and `bar.Thing` will result in a conflict. You can work around this by defining a new type like `type BarThing bar.Thing` and using that instead, or using a custom [registry naming function](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#DefaultSchemaNamer).
+    Note that by design the default registry does **not** support multiple models with the same name in different packages. For example, adding both `foo.Thing` and `bar.Thing` will result in a conflict. You can work around this by defining a new type like `type BarThing bar.Thing` and using that instead, or using a custom [registry naming function](https://pkg.go.dev/github.com/ross96D/huma#DefaultSchemaNamer).
 
 ### Custom Registry
 
-You can create your own registry with custom behavior by implementing the [`huma.Registry`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Registry) interface and setting it on `config.OpenAPI.Components.Schemas` when creating your API.
+You can create your own registry with custom behavior by implementing the [`huma.Registry`](https://pkg.go.dev/github.com/ross96D/huma#Registry) interface and setting it on `config.OpenAPI.Components.Schemas` when creating your API.
 
 ## Dive Deeper
 
--   Reference
-    -   [`huma.Schema`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Schema) is a JSON Schema
-    -   [`huma.Registry`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Registry) generates & stores JSON Schemas
-    -   [`huma.DefaultSchemaNamer`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#DefaultSchemaNamer) names schemas from types
-    -   [`huma.Config`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Config) the API config
-    -   [`huma.DefaultConfig`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#DefaultConfig) the default API config
-    -   [`huma.OpenAPI`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#OpenAPI) the OpenAPI spec
-    -   [`huma.Components`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Components) contains the `Schemas` registry
--   External Links
-    -   [JSON Schema spec](https://json-schema.org/)
-    -   [OpenAPI 3.1 Components Object](https://spec.openapis.org/oas/v3.1.0#components-object)
--   See Also
-    -   [Model Validation](./model-validation.md) utility to validate custom JSON objects
+- Reference
+  - [`huma.Schema`](https://pkg.go.dev/github.com/ross96D/huma#Schema) is a JSON Schema
+  - [`huma.Registry`](https://pkg.go.dev/github.com/ross96D/huma#Registry) generates & stores JSON Schemas
+  - [`huma.DefaultSchemaNamer`](https://pkg.go.dev/github.com/ross96D/huma#DefaultSchemaNamer) names schemas from types
+  - [`huma.Config`](https://pkg.go.dev/github.com/ross96D/huma#Config) the API config
+  - [`huma.DefaultConfig`](https://pkg.go.dev/github.com/ross96D/huma#DefaultConfig) the default API config
+  - [`huma.OpenAPI`](https://pkg.go.dev/github.com/ross96D/huma#OpenAPI) the OpenAPI spec
+  - [`huma.Components`](https://pkg.go.dev/github.com/ross96D/huma#Components) contains the `Schemas` registry
+- External Links
+  - [JSON Schema spec](https://json-schema.org/)
+  - [OpenAPI 3.1 Components Object](https://spec.openapis.org/oas/v3.1.0#components-object)
+- See Also
+  - [Model Validation](./model-validation.md) utility to validate custom JSON objects

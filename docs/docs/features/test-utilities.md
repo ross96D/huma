@@ -4,7 +4,7 @@ description: Test your API with the built-in test utilities.
 
 # Test Utilities
 
-Huma includes a [`humatest`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/humatest) package to make it easier to write tests for your API.
+Huma includes a [`humatest`](https://pkg.go.dev/github.com/ross96D/huma/humatest) package to make it easier to write tests for your API.
 
 ## Creating a Test API
 
@@ -12,13 +12,13 @@ The first step is to create a test API instance. This is a router-agnostic API i
 
 ```go title="code.go"
 import (
-	"testing"
+ "testing"
 
-	"github.com/danielgtaylor/huma/v2/humatest"
+ "github.com/ross96D/huma/humatest"
 )
 
 func TestMyAPI(t *testing.T) {
-	router, api := humatest.New(t)
+ router, api := humatest.New(t)
 }
 ```
 
@@ -28,10 +28,10 @@ The test API is the same as any other API, and you can register routes to it the
 
 ```go title="code.go" hl_lines="4-5"
 func TestMyAPI(t *testing.T) {
-	router, api := humatest.New(t)
+ router, api := humatest.New(t)
 
-	// Register routes...
-	addRoutes(api)
+ // Register routes...
+ addRoutes(api)
 }
 ```
 
@@ -41,21 +41,21 @@ Once you have registered your routes, you can make requests against the test API
 
 ```go title="code.go" hl_lines="7-8 10-16"
 func TestMyAPI(t *testing.T) {
-	router, api := humatest.New(t)
+ router, api := humatest.New(t)
 
-	// Register routes...
-	addRoutes(api)
+ // Register routes...
+ addRoutes(api)
 
-	// Make a GET request
-	resp := api.Get("/some/path?foo=bar")
+ // Make a GET request
+ resp := api.Get("/some/path?foo=bar")
 
-	// Make a PUT request
-	resp = api.Put("/some/path",
-		"My-Header: abc123",
-		map[string]any{
-			"author": "daniel",
-			"rating": 5,
-		})
+ // Make a PUT request
+ resp = api.Put("/some/path",
+  "My-Header: abc123",
+  map[string]any{
+   "author": "daniel",
+   "rating": 5,
+  })
 }
 ```
 
@@ -67,11 +67,11 @@ The request convenience methods return a `*httptest.ResponseRecorder` instance f
 
 ```go title="code.go"
 if resp.Code != http.StatusOK {
-	t.Fail("Unexpected status code", resp.Code)
+ t.Fail("Unexpected status code", resp.Code)
 }
 
 if !strings.Contains(resp.Body.String(), "some text") {
-	t.Fail("Unexpected response body", resp.Body.String())
+ t.Fail("Unexpected response body", resp.Body.String())
 }
 ```
 
@@ -79,9 +79,9 @@ Use whatever assertion library you want to make these checks. [`stretchr/testify
 
 ## Dive Deeper
 
--   Tutorial
-    -   [Writing Tests](../tutorial/writing-tests.md)
--   Reference
-    -   [`humatest`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/humatest)
--   External Links
-    -   [Go testing](https://pkg.go.dev/testing)
+- Tutorial
+  - [Writing Tests](../tutorial/writing-tests.md)
+- Reference
+  - [`humatest`](https://pkg.go.dev/github.com/ross96D/huma/humatest)
+- External Links
+  - [Go testing](https://pkg.go.dev/testing)

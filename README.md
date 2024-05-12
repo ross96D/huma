@@ -1,12 +1,12 @@
 <a href="#">
-	<picture>
-		<source media="(prefers-color-scheme: dark)" srcset="https://huma.rocks/huma-dark.png" />
-		<source media="(prefers-color-scheme: light)" srcset="https://huma.rocks/huma.png" />
-		<img alt="Huma Logo" src="https://huma.rocks/huma.png" />
-	</picture>
+ <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://huma.rocks/huma-dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="https://huma.rocks/huma.png" />
+  <img alt="Huma Logo" src="https://huma.rocks/huma.png" />
+ </picture>
 </a>
 
-[![HUMA Powered](https://img.shields.io/badge/Powered%20By-HUMA-f40273)](https://huma.rocks/) [![CI](https://github.com/danielgtaylor/huma/workflows/CI/badge.svg?branch=main)](https://github.com/danielgtaylor/huma/actions?query=workflow%3ACI+branch%3Amain++) [![codecov](https://codecov.io/gh/danielgtaylor/huma/branch/main/graph/badge.svg)](https://codecov.io/gh/danielgtaylor/huma) [![Docs](https://godoc.org/github.com/danielgtaylor/huma/v2?status.svg)](https://pkg.go.dev/github.com/danielgtaylor/huma/v2?tab=doc) [![Go Report Card](https://goreportcard.com/badge/github.com/danielgtaylor/huma/v2)](https://goreportcard.com/report/github.com/danielgtaylor/huma/v2)
+[![HUMA Powered](https://img.shields.io/badge/Powered%20By-HUMA-f40273)](https://huma.rocks/) [![CI](https://github.com/danielgtaylor/huma/workflows/CI/badge.svg?branch=main)](https://github.com/danielgtaylor/huma/actions?query=workflow%3ACI+branch%3Amain++) [![codecov](https://codecov.io/gh/danielgtaylor/huma/branch/main/graph/badge.svg)](https://codecov.io/gh/danielgtaylor/huma) [![Docs](https://godoc.org/github.com/ross96D/huma?status.svg)](https://pkg.go.dev/github.com/ross96D/huma?tab=doc) [![Go Report Card](https://goreportcard.com/badge/github.com/ross96D/huma)](https://goreportcard.com/report/github.com/ross96D/huma)
 
 [**🌎中文文档**](./README_CN.md)
 
@@ -87,7 +87,7 @@ Install via `go get`. Note that Go 1.20 or newer is required.
 
 ```sh
 # After: go mod init ...
-go get -u github.com/danielgtaylor/huma/v2
+go get -u github.com/ross96D/huma
 ```
 
 # Example
@@ -98,54 +98,54 @@ Here is a complete basic hello world example in Huma, that shows how to initiali
 package main
 
 import (
-	"context"
-	"fmt"
-	"net/http"
+ "context"
+ "fmt"
+ "net/http"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
-	"github.com/danielgtaylor/huma/v2/humacli"
-	"github.com/go-chi/chi/v5"
+ "github.com/ross96D/huma"
+ "github.com/ross96D/huma/adapters/humachi"
+ "github.com/ross96D/huma/humacli"
+ "github.com/go-chi/chi/v5"
 
-	_ "github.com/danielgtaylor/huma/v2/formats/cbor"
+ _ "github.com/ross96D/huma/formats/cbor"
 )
 
 // Options for the CLI. Pass `--port` or set the `SERVICE_PORT` env var.
 type Options struct {
-	Port int `help:"Port to listen on" short:"p" default:"8888"`
+ Port int `help:"Port to listen on" short:"p" default:"8888"`
 }
 
 // GreetingOutput represents the greeting operation response.
 type GreetingOutput struct {
-	Body struct {
-		Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
-	}
+ Body struct {
+  Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
+ }
 }
 
 func main() {
-	// Create a CLI app which takes a port option.
-	cli := humacli.New(func(hooks humacli.Hooks, options *Options) {
-		// Create a new router & API
-		router := chi.NewMux()
-		api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
+ // Create a CLI app which takes a port option.
+ cli := humacli.New(func(hooks humacli.Hooks, options *Options) {
+  // Create a new router & API
+  router := chi.NewMux()
+  api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
 
-		// Add the operation handler to the API.
-		huma.Get(api, "/greeting/{name}", func(ctx context.Context, input *struct{
-			Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
-		}) (*GreetingOutput, error) {
-			resp := &GreetingOutput{}
-			resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
-			return resp, nil
-		})
+  // Add the operation handler to the API.
+  huma.Get(api, "/greeting/{name}", func(ctx context.Context, input *struct{
+   Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
+  }) (*GreetingOutput, error) {
+   resp := &GreetingOutput{}
+   resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
+   return resp, nil
+  })
 
-		// Tell the CLI how to start your router.
-		hooks.OnStart(func() {
-			http.ListenAndServe(fmt.Sprintf(":%d", options.Port), router)
-		})
-	})
+  // Tell the CLI how to start your router.
+  hooks.OnStart(func() {
+   http.ListenAndServe(fmt.Sprintf(":%d", options.Port), router)
+  })
+ })
 
-	// Run the CLI. When passed no commands, it starts the server.
-	cli.Run()
+ // Run the CLI. When passed no commands, it starts the server.
+ cli.Run()
 }
 ```
 
@@ -160,12 +160,12 @@ $ restish :8888/greeting/world
 HTTP/1.1 200 OK
 ...
 {
-	$schema: "http://localhost:8888/schemas/GreetingOutputBody.json",
-	message: "Hello, world!"
+ $schema: "http://localhost:8888/schemas/GreetingOutputBody.json",
+ message: "Hello, world!"
 }
 ```
 
-Even though the example is tiny you can also see some generated documentation at http://localhost:8888/docs. The generated OpenAPI is available at http://localhost:8888/openapi.json or http://localhost:8888/openapi.yaml.
+Even though the example is tiny you can also see some generated documentation at <http://localhost:8888/docs>. The generated OpenAPI is available at <http://localhost:8888/openapi.json> or <http://localhost:8888/openapi.yaml>.
 
 Check out the [Huma tutorial](https://huma.rocks/tutorial/installation/) for a step-by-step guide to get started.
 
@@ -173,7 +173,7 @@ Check out the [Huma tutorial](https://huma.rocks/tutorial/installation/) for a s
 
 See the [https://huma.rocks/](https://huma.rocks/) website for full documentation in a presentation that's easier to navigate and search then this README. You can find the source for the site in the `docs` directory of this repo.
 
-Official Go package documentation can always be found at https://pkg.go.dev/github.com/danielgtaylor/huma/v2.
+Official Go package documentation can always be found at <https://pkg.go.dev/github.com/ross96D/huma>.
 
 # Articles & Mentions
 
@@ -187,9 +187,9 @@ Official Go package documentation can always be found at https://pkg.go.dev/gith
 Be sure to star the project if you find it useful!
 
 <a href="https://star-history.com/#danielgtaylor/huma&Date">
-	<picture>
-		<source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date&theme=dark" />
-		<source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date" />
-		<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date" />
-	</picture>
+ <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date" />
+  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date" />
+ </picture>
 </a>

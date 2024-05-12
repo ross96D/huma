@@ -13,20 +13,20 @@ The CLI options use a similar strategy to input & output structs, enabling you t
 ```go title="main.go"
 // First, define your input options.
 type Options struct {
-	Debug bool   `doc:"Enable debug logging"`
-	Host  string `doc:"Hostname to listen on."`
-	Port  int    `doc:"Port to listen on." short:"p" default:"8888"`
+ Debug bool   `doc:"Enable debug logging"`
+ Host  string `doc:"Hostname to listen on."`
+ Port  int    `doc:"Port to listen on." short:"p" default:"8888"`
 }
 
 func main() {
-	// Then, create the CLI.
-	cli := humacli.New(func(hooks humacli.Hooks, opts *Options) {
-		fmt.Printf("I was run with debug:%v host:%v port%v\n",
-			opts.Debug, opts.Host, opts.Port)
-	})
+ // Then, create the CLI.
+ cli := humacli.New(func(hooks humacli.Hooks, opts *Options) {
+  fmt.Printf("I was run with debug:%v host:%v port%v\n",
+   opts.Debug, opts.Host, opts.Port)
+ })
 
-	// Run the thing!
-	cli.Run()
+ // Run the thing!
+ cli.Run()
 }
 ```
 
@@ -46,26 +46,26 @@ To do useful work, you will want to register a handler for the default start com
 
 ```go title="main.go"
 cli := humacli.New(func(hooks humacli.Hooks, opts *Options) {
-	// Set up the router and API
-	// ...
+ // Set up the router and API
+ // ...
 
-	// Create the HTTP server.
-	server := http.Server{
-		Addr:    fmt.Sprintf(":%d", options.Port),
-		Handler: router,
-	}
+ // Create the HTTP server.
+ server := http.Server{
+  Addr:    fmt.Sprintf(":%d", options.Port),
+  Handler: router,
+ }
 
-	hooks.OnStart(func() {
-		// Start your server here
-		server.ListenAndServe()
-	})
+ hooks.OnStart(func() {
+  // Start your server here
+  server.ListenAndServe()
+ })
 
-	hooks.OnStop(func() {
-		// Gracefully shutdown your server here
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-		server.Shutdown(ctx)
-	})
+ hooks.OnStop(func() {
+  // Gracefully shutdown your server here
+  ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+  defer cancel()
+  server.Shutdown(ctx)
+ })
 })
 ```
 
@@ -116,9 +116,9 @@ Here is an example of how to use them:
 
 ```go title="main.go"
 type Options struct {
-	Debug bool   `doc:"Enable debug logging"`
-	Host  string `doc:"Hostname to listen on."`
-	Port  int    `doc:"Port to listen on." short:"p" default:"8888"`
+ Debug bool   `doc:"Enable debug logging"`
+ Host  string `doc:"Hostname to listen on."`
+ Port  int    `doc:"Port to listen on." short:"p" default:"8888"`
 }
 ```
 
@@ -132,26 +132,26 @@ var api huma.API
 // ... set up the CLI, create the API wrapping the router ...
 
 cli.Root().AddCommand(&cobra.Command{
-	Use:   "openapi",
-	Short: "Print the OpenAPI spec",
-	Run: func(cmd *cobra.Command, args []string) {
-		b, _ := yaml.Marshal(api.OpenAPI())
-		fmt.Println(string(b))
-	},
+ Use:   "openapi",
+ Short: "Print the OpenAPI spec",
+ Run: func(cmd *cobra.Command, args []string) {
+  b, _ := yaml.Marshal(api.OpenAPI())
+  fmt.Println(string(b))
+ },
 })
 ```
 
 Now you can run your service and use the new command: `go run . openapi`. Notice that it never starts the server; it just runs your command handler code. Some ideas for custom commands:
 
--   Print the OpenAPI spec
--   Print JSON Schemas
--   Run database migrations
--   Run customer scenario tests
--   Bundle common actions into a single utility command, like adding a new user
+- Print the OpenAPI spec
+- Print JSON Schemas
+- Run database migrations
+- Run customer scenario tests
+- Bundle common actions into a single utility command, like adding a new user
 
 ### Custom Commands with Options
 
-If you want to access your custom options struct with custom commands, use the [`huma.WithOptions(func(cmd *cobra.Command, args []string, options *YourOptions)) func(cmd *cobra.Command, args []string)`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#WithOptions) utitity function. It ensures the options are parsed and available before running your command.
+If you want to access your custom options struct with custom commands, use the [`huma.WithOptions(func(cmd *cobra.Command, args []string, options *YourOptions)) func(cmd *cobra.Command, args []string)`](https://pkg.go.dev/github.com/ross96D/huma#WithOptions) utitity function. It ensures the options are parsed and available before running your command.
 
 !!! info "More Customization"
 
@@ -189,15 +189,15 @@ appname version 1.0.1
 
 ## Dive Deeper
 
--   Tutorial
-    -   [Service Configuration Tutorial](../tutorial/service-configuration.md) includes a working CLI example
--   How-To
-    -   [Graceful Shutdown](../how-to/graceful-shutdown.md) on service stop
--   Reference
-    -   [`humacli.CLI`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/humacli#CLI) the CLI instance
-    -   [`humacli.New`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/humacli#New) creates a new CLI instance
-    -   [`humacli.Hooks`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/humacli#Hooks) for startup / shutdown
-    -   [`humacli.WithOptions`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/humacli#WithOptions) wraps a command with options parsing
-    -   [`huma.API`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#API) the API instance
--   External Links
-    -   [Cobra](https://cobra.dev/) CLI library
+- Tutorial
+  - [Service Configuration Tutorial](../tutorial/service-configuration.md) includes a working CLI example
+- How-To
+  - [Graceful Shutdown](../how-to/graceful-shutdown.md) on service stop
+- Reference
+  - [`humacli.CLI`](https://pkg.go.dev/github.com/ross96D/huma/humacli#CLI) the CLI instance
+  - [`humacli.New`](https://pkg.go.dev/github.com/ross96D/huma/humacli#New) creates a new CLI instance
+  - [`humacli.Hooks`](https://pkg.go.dev/github.com/ross96D/huma/humacli#Hooks) for startup / shutdown
+  - [`humacli.WithOptions`](https://pkg.go.dev/github.com/ross96D/huma/humacli#WithOptions) wraps a command with options parsing
+  - [`huma.API`](https://pkg.go.dev/github.com/ross96D/huma#API) the API instance
+- External Links
+  - [Cobra](https://cobra.dev/) CLI library

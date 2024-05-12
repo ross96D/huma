@@ -6,7 +6,7 @@ description: Stream events from the server to the client over HTTP using Server 
 
 ## SSE { .hidden }
 
-The [`sse`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/sse) package provides a helper for streaming [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) responses.
+The [`sse`](https://pkg.go.dev/github.com/ross96D/huma/sse) package provides a helper for streaming [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) responses.
 
 SSE is a simple protocol for sending events from the server to the client over HTTP. It is a one-way protocol, meaning that the client cannot send events to the server, but can consume them as they are sent. It is popularly used as a push mechanism for web and other clients.
 
@@ -17,21 +17,21 @@ The `sse` package provides a simple API for sending events to the client and doc
 ```go title="code.go"
 // Register using sse.Register instead of huma.Register
 sse.Register(api, huma.Operation{
-	OperationID: "sse",
-	Method:      http.MethodGet,
-	Path:        "/sse",
-	Summary:     "Server sent events example",
+ OperationID: "sse",
+ Method:      http.MethodGet,
+ Path:        "/sse",
+ Summary:     "Server sent events example",
 }, map[string]any{
-	// Mapping of event type name to Go struct for that event.
-	"message":      DefaultMessage{},
-	"userCreate":   UserCreatedEvent{},
-	"mailRecieved": MailReceivedEvent{},
+ // Mapping of event type name to Go struct for that event.
+ "message":      DefaultMessage{},
+ "userCreate":   UserCreatedEvent{},
+ "mailRecieved": MailReceivedEvent{},
 }, func(ctx context.Context, input *struct{}, send sse.Sender) {
-	// Send an event every second for 10 seconds.
-	for x := 0; x < 10; x++ {
-		send.Data(MailReceivedEvent{UserID: "abc123"})
-		time.Sleep(1 * time.Second)
-	}
+ // Send an event every second for 10 seconds.
+ for x := 0; x < 10; x++ {
+  send.Data(MailReceivedEvent{UserID: "abc123"})
+  time.Sleep(1 * time.Second)
+ }
 })
 ```
 
@@ -52,8 +52,8 @@ Unless you need to set the message ID or retry information, the `send.Data(any)`
 
 ## Dive Deeper
 
--   Reference
-    -   [`sse.Register`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/sse#Register)
-    -   [`sse.Sender`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2/sse#Sender)
--   External Links
-    -   [Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
+- Reference
+  - [`sse.Register`](https://pkg.go.dev/github.com/ross96D/huma/sse#Register)
+  - [`sse.Sender`](https://pkg.go.dev/github.com/ross96D/huma/sse#Sender)
+- External Links
+  - [Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)

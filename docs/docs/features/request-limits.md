@@ -10,11 +10,11 @@ A combination of the server and the request context can be used to control deadl
 
 ```go title="code.go"
 srv := &http.Server{
-	ReadTimeout:       5 * time.Second,
-	WriteTimeout:      5 * time.Second,
-	IdleTimeout:       30 * time.Second,
-	ReadHeaderTimeout: 2 * time.Second,
-	// ...
+ ReadTimeout:       5 * time.Second,
+ WriteTimeout:      5 * time.Second,
+ IdleTimeout:       30 * time.Second,
+ ReadHeaderTimeout: 2 * time.Second,
+ // ...
 }
 ```
 
@@ -24,7 +24,7 @@ The Huma request context (accessible via resolvers) can be used to set a read de
 type MyInput struct {}
 
 func (m *MyInput) Resolve(ctx huma.Context) []error {
-	ctx.SetReadDeadline(time.Now().Add(5 * time.Second))
+ ctx.SetReadDeadline(time.Now().Add(5 * time.Second))
 }
 ```
 
@@ -38,7 +38,7 @@ defer cancel()
 // Use the new context for any dependencies.
 result, err := myDB.Get(newCtx, /* ... */)
 if err != nil {
-	// Deadline may have been hit, handle it here!
+ // Deadline may have been hit, handle it here!
 }
 ```
 
@@ -48,14 +48,14 @@ By default each operation has a 1 MiB request body size limit. This can be chang
 
 ```go title="code.go" hl_lines="6"
 huma.Register(api, huma.Operation{
-	OperationID:  "put-thing",
-	Method:       http.MethodPut,
-	Path:         "/things/{thing-id}",
-	Summary:      "Put a thing by ID",
-	MaxBodyBytes: 10 * 1024 * 1024, // 10 MiB
+ OperationID:  "put-thing",
+ Method:       http.MethodPut,
+ Path:         "/things/{thing-id}",
+ Summary:      "Put a thing by ID",
+ MaxBodyBytes: 10 * 1024 * 1024, // 10 MiB
 }, func(ctx context.Context, input ThingRequest) (*struct{}, error) {
-	// Do nothing...
-	return nil, nil
+ // Do nothing...
+ return nil, nil
 }
 ```
 
@@ -63,12 +63,12 @@ Keep in mind that the body is read into memory before being passed to the handle
 
 ## Dive Deeper
 
--   Reference
-    -   [`huma.Resolver`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Resolver) is the basic interface
-    -   [`huma.ResolverWithPath`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#ResolverWithPath) has a path prefix
-    -   [`huma.Operation`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Operation) the operation
-    -   [`huma.Context`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Context) a router-agnostic request/response context
--   External Links
-    -   [Go Contexts](https://blog.golang.org/context) from the Go blog
-    -   [`context.Context`](https://pkg.go.dev/context)
-    -   [`http.Server`](https://pkg.go.dev/net/http#Server)
+- Reference
+  - [`huma.Resolver`](https://pkg.go.dev/github.com/ross96D/huma#Resolver) is the basic interface
+  - [`huma.ResolverWithPath`](https://pkg.go.dev/github.com/ross96D/huma#ResolverWithPath) has a path prefix
+  - [`huma.Operation`](https://pkg.go.dev/github.com/ross96D/huma#Operation) the operation
+  - [`huma.Context`](https://pkg.go.dev/github.com/ross96D/huma#Context) a router-agnostic request/response context
+- External Links
+  - [Go Contexts](https://blog.golang.org/context) from the Go blog
+  - [`context.Context`](https://pkg.go.dev/context)
+  - [`http.Server`](https://pkg.go.dev/net/http#Server)

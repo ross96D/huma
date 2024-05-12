@@ -30,8 +30,8 @@ config.DocsPath = ""
 api := humachi.New(router, config)
 
 router.Get("/docs", func(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(`<!doctype html>
+ w.Header().Set("Content-Type", "text/html")
+ w.Write([]byte(`<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -70,8 +70,8 @@ config.DocsPath = ""
 api := humachi.New(router, config)
 
 router.Get("/docs", func(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(`<!doctype html>
+ w.Header().Set("Content-Type", "text/html")
+ w.Write([]byte(`<!doctype html>
 <html>
   <head>
     <title>API Reference</title>
@@ -104,8 +104,8 @@ config.DocsPath = ""
 api := humachi.New(router, config)
 
 router.Get("/docs", func(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(`<!DOCTYPE html>
+ w.Header().Set("Content-Type", "text/html")
+ w.Write([]byte(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -134,6 +134,6 @@ router.Get("/docs", func(w http.ResponseWriter, r *http.Request) {
 
 ## Dive Deeper
 
--   Reference
-    -   [`huma.Config`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Config) the API config
-    -   [`huma.DefaultConfig`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#DefaultConfig) the default API config
+- Reference
+  - [`huma.Config`](https://pkg.go.dev/github.com/ross96D/huma#Config) the API config
+  - [`huma.DefaultConfig`](https://pkg.go.dev/github.com/ross96D/huma#DefaultConfig) the default API config

@@ -28,16 +28,16 @@ graph TD
     Resource2 --> PUT
 ```
 
-Operations are created using the [`huma.Register`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Register) function:
+Operations are created using the [`huma.Register`](https://pkg.go.dev/github.com/ross96D/huma#Register) function:
 
 ```go
 huma.Register(api, huma.Operation{
-	OperationID: "your-operation-name",
-	Method:      http.MethodGet,
-	Path:        "/path/to/resource/{id}",
-	Summary:     "A short description of the operation",
+ OperationID: "your-operation-name",
+ Method:      http.MethodGet,
+ Path:        "/path/to/resource/{id}",
+ Summary:     "A short description of the operation",
 }, func(ctx context.Context, input *YourInput) (*YourOutput, error) {
-	// ... Implementation goes here ...
+ // ... Implementation goes here ...
 })
 ```
 
@@ -57,11 +57,11 @@ huma.Register(api, huma.Operation{
 
 A number of convenience methods are provided if you don't want to use the `huma.Operation` struct directly. The following are available:
 
--   `huma.Get`
--   `huma.Post`
--   `huma.Put`
--   `huma.Patch`
--   `huma.Delete`
+- `huma.Get`
+- `huma.Post`
+- `huma.Put`
+- `huma.Patch`
+- `huma.Delete`
 
 These methods are equivalent to using `huma.Register` with the `Method` field set to the corresponding HTTP method, and they generate the operation ID for you based on the path. For example:
 
@@ -83,7 +83,7 @@ The operation handler function _always_ has the following generic format, where 
 func(context.Context, *Input) (*Output, error)
 ```
 
-There are many options available for configuring OpenAPI settings for the operation, and custom extensions are supported as well. See the [`huma.Operation`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Schema) struct for more details.
+There are many options available for configuring OpenAPI settings for the operation, and custom extensions are supported as well. See the [`huma.Operation`](https://pkg.go.dev/github.com/ross96D/huma#Schema) struct for more details.
 
 ## Input & Output Models
 
@@ -161,10 +161,10 @@ Read on to learn about how each of these steps works.
 
 ## Dive Deeper
 
--   Tutorial
-    -   [Your First API](../tutorial/your-first-api.md#operation) includes registering an operation
--   Reference
-    -   [`huma.Register`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Register) registers new operations
-    -   [`huma.Operation`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Operation) the operation
--   External Links
-    -   [OpenAPI 3.1 Operation Object](https://spec.openapis.org/oas/v3.1.0#operation-object)
+- Tutorial
+  - [Your First API](../tutorial/your-first-api.md#operation) includes registering an operation
+- Reference
+  - [`huma.Register`](https://pkg.go.dev/github.com/ross96D/huma#Register) registers new operations
+  - [`huma.Operation`](https://pkg.go.dev/github.com/ross96D/huma#Operation) the operation
+- External Links
+  - [OpenAPI 3.1 Operation Object](https://spec.openapis.org/oas/v3.1.0#operation-object)

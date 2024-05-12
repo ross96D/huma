@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/queryparam"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/queryparam"
 )
 
 // MultipartMaxMemory is the maximum memory to use when parsing multipart

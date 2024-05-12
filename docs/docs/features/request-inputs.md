@@ -39,7 +39,7 @@ For cookies, the default behavior is to read the cookie _value_ from the request
 
 ```go title="code.go"
 type MyInput struct {
-	Session http.Cookie `cookie:"session"`
+ Session http.Cookie `cookie:"session"`
 }
 ```
 
@@ -76,15 +76,15 @@ Sometimes, you want to bypass the normal body parsing and instead read the raw b
 
 ```go title="code.go"
 huma.Register(api, huma.Operation{
-	OperationID: "post-plain-text",
-	Method:      http.MethodPost,
-	Path:        "/text",
-	Summary:     "Example to post plain text input",
+ OperationID: "post-plain-text",
+ Method:      http.MethodPost,
+ Path:        "/text",
+ Summary:     "Example to post plain text input",
 }, func(ctx context.Context, input struct {
-	RawBody []string `contentType:"text/plain"`
+ RawBody []string `contentType:"text/plain"`
 }) (*struct{}, error) {
-	fmt.Println("Got input:", input.RawBody)
-	return nil, nil
+ fmt.Println("Got input:", input.RawBody)
+ return nil, nil
 }
 ```
 
@@ -100,7 +100,7 @@ For example:
 
 ```go title="code.go"
 huma.Register(api, huma.Operation{
-	OperationID: "upload-files",
+ OperationID: "upload-files",
     Method:      http.MethodPost,
     Path:        "/upload",
     Summary:     "Example to upload a file",
@@ -120,11 +120,11 @@ Here is an example request input struct, which has a path param, query param, he
 
 ```go title="code.go"
 type MyInput struct {
-	ID      string `path:"id"`
-	Detail  bool   `query:"detail" doc:"Show full details"`
-	Auth    string `header:"Authorization"`
-	Body    MyBody
-	RawBody []byte
+ ID      string `path:"id"`
+ Detail  bool   `query:"detail" doc:"Show full details"`
+ Auth    string `header:"Authorization"`
+ Body    MyBody
+ RawBody []byte
 }
 ```
 
@@ -148,37 +148,37 @@ Because inputs are just Go structs, they are composable and reusable. For exampl
 
 ```go title="code.go"
 type AuthParam struct {
-	Authorization string `header:"Authorization"`
+ Authorization string `header:"Authorization"`
 }
 
 type PaginationParams struct {
-	Cursor string `query:"cursor"`
-	Limit  int    `query:"limit"`
+ Cursor string `query:"cursor"`
+ Limit  int    `query:"limit"`
 }
 
 // ... Later in the code
 huma.Register(api, huma.Operation{
-	OperationID: "list-things",
-	Method:      http.MethodGet,
-	Path:        "/things",
-	Summary:     "Get a filtered list of things",
+ OperationID: "list-things",
+ Method:      http.MethodGet,
+ Path:        "/things",
+ Summary:     "Get a filtered list of things",
 }, func(ctx context.Context, input struct {
-	// Embed both structs to compose your input.
-	AuthParam
-	PaginationParams
+ // Embed both structs to compose your input.
+ AuthParam
+ PaginationParams
 }) (*struct{}, error) {
-	fmt.Printf("Auth: %s, Cursor: %s, Limit: %d\n", input.Authorization, input.Cursor, input.Limit)
-	return nil, nil
+ fmt.Printf("Auth: %s, Cursor: %s, Limit: %d\n", input.Authorization, input.Cursor, input.Limit)
+ return nil, nil
 }
 ```
 
 ## Dive Deeper
 
--   Tutorial
-    -   [Your First API](../tutorial/your-first-api.md) includes registering an operation with a path param
--   Reference
-    -   [`huma.Register`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Register) registers new operations
-    -   [`huma.Operation`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Operation) the operation
--   External Links
-    -   [OpenAPI 3.1 Operation Object](https://spec.openapis.org/oas/v3.1.0#operation-object)
-    -   [OpenAPI 3.1 Parameter Object](https://spec.openapis.org/oas/v3.1.0#parameter-object)
+- Tutorial
+  - [Your First API](../tutorial/your-first-api.md) includes registering an operation with a path param
+- Reference
+  - [`huma.Register`](https://pkg.go.dev/github.com/ross96D/huma#Register) registers new operations
+  - [`huma.Operation`](https://pkg.go.dev/github.com/ross96D/huma#Operation) the operation
+- External Links
+  - [OpenAPI 3.1 Operation Object](https://spec.openapis.org/oas/v3.1.0#operation-object)
+  - [OpenAPI 3.1 Parameter Object](https://spec.openapis.org/oas/v3.1.0#parameter-object)

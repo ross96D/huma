@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
-	"github.com/danielgtaylor/huma/v2/humatest"
 	"github.com/go-chi/chi/v5"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/adapters/humachi"
+	"github.com/ross96D/huma/humatest"
 	"github.com/stretchr/testify/assert"
 )
 

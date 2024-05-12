@@ -10,7 +10,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/danielgtaylor/huma/v2"
+	"github.com/ross96D/huma"
 )
 
 func Ptr[T any](v T) *T {

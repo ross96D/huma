@@ -14,9 +14,9 @@ import (
 	"strings"
 	"testing/iotest"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humaflow"
-	"github.com/danielgtaylor/huma/v2/adapters/humaflow/flow"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/adapters/humaflow"
+	"github.com/ross96D/huma/adapters/humaflow/flow"
 )
 
 // TB is a subset of the `testing.TB` interface used by the test API and

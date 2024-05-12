@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/humatest"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/humatest"
 )
 
 // Ensure the default error models satisfy these interfaces.

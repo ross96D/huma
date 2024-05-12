@@ -10,7 +10,7 @@ import (
 	"runtime/debug"
 	"time"
 
-	"github.com/danielgtaylor/huma/v2"
+	"github.com/ross96D/huma"
 )
 
 // WriteTimeout is the timeout for writing to the client.

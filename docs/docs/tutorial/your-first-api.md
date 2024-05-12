@@ -12,7 +12,7 @@ GET /greeting/{name}
 
 Response:
 {
-	"message": "Hello, {name}!"
+ "message": "Hello, {name}!"
 }
 ```
 
@@ -25,9 +25,9 @@ package main
 
 // GreetingOutput represents the greeting operation response.
 type GreetingOutput struct {
-	Body struct {
-		Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
-	}
+ Body struct {
+  Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
+ }
 }
 ```
 
@@ -41,7 +41,7 @@ You should now have a directory structure that looks like:
 my-api/
   |-- go.mod
   |-- go.sum
-	|-- main.go
+ |-- main.go
 ```
 
 ## Router & API
@@ -52,31 +52,31 @@ Let's create a router, which will handle getting incoming requests to the correc
 package main
 
 import (
-	"net/http"
+ "net/http"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
-	"github.com/go-chi/chi/v5"
+ "github.com/ross96D/huma"
+ "github.com/ross96D/huma/adapters/humachi"
+ "github.com/go-chi/chi/v5"
 
-	_ "github.com/danielgtaylor/huma/v2/formats/cbor"
+ _ "github.com/ross96D/huma/formats/cbor"
 )
 
 // GreetingOutput represents the greeting operation response.
 type GreetingOutput struct {
-	Body struct {
-		Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
-	}
+ Body struct {
+  Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
+ }
 }
 
 func main() {
-	// Create a new router & API
-	router := chi.NewMux()
-	api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
+ // Create a new router & API
+ router := chi.NewMux()
+ api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
 
-	// TODO: Register operations...
+ // TODO: Register operations...
 
-	// Start the server!
-	http.ListenAndServe("127.0.0.1:8888", router)
+ // Start the server!
+ http.ListenAndServe("127.0.0.1:8888", router)
 }
 ```
 
@@ -99,40 +99,40 @@ Register the operation with the Huma API instance, including how it maps to a UR
 package main
 
 import (
-	"context"
-	"fmt"
-	"net/http"
+ "context"
+ "fmt"
+ "net/http"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
-	"github.com/go-chi/chi/v5"
+ "github.com/ross96D/huma"
+ "github.com/ross96D/huma/adapters/humachi"
+ "github.com/go-chi/chi/v5"
 
-	_ "github.com/danielgtaylor/huma/v2/formats/cbor"
+ _ "github.com/ross96D/huma/formats/cbor"
 )
 
 // GreetingOutput represents the greeting operation response.
 type GreetingOutput struct {
-	Body struct {
-		Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
-	}
+ Body struct {
+  Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
+ }
 }
 
 func main() {
-	// Create a new router & API.
-	router := chi.NewMux()
-	api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
+ // Create a new router & API.
+ router := chi.NewMux()
+ api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
 
-	// Register GET /greeting/{name} handler.
-	huma.Get(api, "/greeting/{name}", func(ctx context.Context, input *struct{
-		Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
-	}) (*GreetingOutput, error) {
-		resp := &GreetingOutput{}
-		resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
-		return resp, nil
-	})
+ // Register GET /greeting/{name} handler.
+ huma.Get(api, "/greeting/{name}", func(ctx context.Context, input *struct{
+  Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
+ }) (*GreetingOutput, error) {
+  resp := &GreetingOutput{}
+  resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
+  return resp, nil
+ })
 
-	// Start the server!
-	http.ListenAndServe("127.0.0.1:8888", router)
+ // Start the server!
+ http.ListenAndServe("127.0.0.1:8888", router)
 }
 ```
 
@@ -145,7 +145,7 @@ Congratulations! This is a fully functional Huma API!
 Let's test it out! Start the server:
 
 ```bash
-$ go run .
+go run .
 ```
 
 In another terminal window, make a request to the API using [Restish](../tutorial/cli-client.md#install-restish) or curl:
@@ -175,60 +175,60 @@ Using the panel at the top right of the documentation page you can send a reques
 
 These docs are generated from the OpenAPI specification. You can use this file to generate documentation, client libraries, commandline clients, mock servers, and more. Two versions are provided by Huma. It is recommended to use OpenAPI 3.1, but OpenAPI 3.0.3 is also available for compatibility with older tools:
 
--   OpenAPI 3.1 JSON: [http://localhost:8888/openapi.json](http://localhost:8888/openapi.json)
--   OpenAPI 3.1 YAML: [http://localhost:8888/openapi.yaml](http://localhost:8888/openapi.yaml)
--   OpenAPI 3.0.3 JSON: [http://localhost:8888/openapi-3.0.json](http://localhost:8888/openapi-3.0.json)
--   OpenAPI 3.0.3 YAML: [http://localhost:8888/openapi-3.0.yaml](http://localhost:8888/openapi-3.0.yaml)
+- OpenAPI 3.1 JSON: [http://localhost:8888/openapi.json](http://localhost:8888/openapi.json)
+- OpenAPI 3.1 YAML: [http://localhost:8888/openapi.yaml](http://localhost:8888/openapi.yaml)
+- OpenAPI 3.0.3 JSON: [http://localhost:8888/openapi-3.0.json](http://localhost:8888/openapi-3.0.json)
+- OpenAPI 3.0.3 YAML: [http://localhost:8888/openapi-3.0.yaml](http://localhost:8888/openapi-3.0.yaml)
 
 ### Enhancing Documentation
 
-You can use `huma.Register` to add more information to the OpenAPI specification, such as descriptions with Markdown, examples, tags, and more. The `huma.Operation` struct provides full access to the OpenAPI including the ability to add extensions. See the [`huma.Operation`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Operation) struct for more details.
+You can use `huma.Register` to add more information to the OpenAPI specification, such as descriptions with Markdown, examples, tags, and more. The `huma.Operation` struct provides full access to the OpenAPI including the ability to add extensions. See the [`huma.Operation`](https://pkg.go.dev/github.com/ross96D/huma#Operation) struct for more details.
 
 ```go title="main.go" linenums="1" hl_lines="28-35"
 package main
 
 import (
-	"context"
-	"fmt"
-	"net/http"
+ "context"
+ "fmt"
+ "net/http"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
-	"github.com/go-chi/chi/v5"
+ "github.com/ross96D/huma"
+ "github.com/ross96D/huma/adapters/humachi"
+ "github.com/go-chi/chi/v5"
 
-	_ "github.com/danielgtaylor/huma/v2/formats/cbor"
+ _ "github.com/ross96D/huma/formats/cbor"
 )
 
 // GreetingOutput represents the greeting operation response.
 type GreetingOutput struct {
-	Body struct {
-		Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
-	}
+ Body struct {
+  Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
+ }
 }
 
 func main() {
-	// Create a new router & API
-	router := chi.NewMux()
-	api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
+ // Create a new router & API
+ router := chi.NewMux()
+ api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
 
-	// Register GET /greeting/{name}
-	huma.Register(api, huma.Operation{
-		OperationID: "get-greeting",
-		Method:      http.MethodGet,
-		Path:        "/greeting/{name}",
-		Summary:     "Get a greeting",
-		Description: "Get a greeting for a person by name.",
-		Tags:        []string{"Greetings"},
-	}, func(ctx context.Context, input *struct{
-		Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
-	}) (*GreetingOutput, error) {
-		resp := &GreetingOutput{}
-		resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
-		return resp, nil
-	})
+ // Register GET /greeting/{name}
+ huma.Register(api, huma.Operation{
+  OperationID: "get-greeting",
+  Method:      http.MethodGet,
+  Path:        "/greeting/{name}",
+  Summary:     "Get a greeting",
+  Description: "Get a greeting for a person by name.",
+  Tags:        []string{"Greetings"},
+ }, func(ctx context.Context, input *struct{
+  Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
+ }) (*GreetingOutput, error) {
+  resp := &GreetingOutput{}
+  resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
+  return resp, nil
+ })
 
-	// Start the server!
-	http.ListenAndServe("127.0.0.1:8888", router)
+ // Start the server!
+ http.ListenAndServe("127.0.0.1:8888", router)
 }
 ```
 
@@ -238,9 +238,9 @@ Now restart the server and take a look at your updated docs!
 
 Congratulations! You just learned:
 
--   Creating Huma input and output models
--   Creating a Golang REST API with Huma
--   How to make requests to the API
--   How to view the generated documentation
+- Creating Huma input and output models
+- Creating a Golang REST API with Huma
+- How to make requests to the API
+- How to view the generated documentation
 
 Read on to learn how to level up your API with even more features.

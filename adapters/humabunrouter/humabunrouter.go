@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/queryparam"
+	"github.com/ross96D/huma"
+	"github.com/ross96D/huma/queryparam"
 	"github.com/uptrace/bunrouter"
 )
 

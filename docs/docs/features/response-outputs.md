@@ -10,22 +10,22 @@ Responses can have an optional status code, headers, and/or body. Like inputs, t
 
 Huma uses the following default response status codes:
 
--   `200` for responses with bodies
--   `204` for responses without a body
+- `200` for responses with bodies
+- `204` for responses without a body
 
-You can override this behavior in two ways. The first is by setting [`huma.Operation`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Operation) `DefaultStatus` field at operation registration time.
+You can override this behavior in two ways. The first is by setting [`huma.Operation`](https://pkg.go.dev/github.com/ross96D/huma#Operation) `DefaultStatus` field at operation registration time.
 
 ```go title="code.go"
 // Register an operation with a default status code of 201.
 huma.Register(api, huma.Operation{
-	OperationID:  "create-thing",
-	Method:       http.MethodPost,
-	Path:         "/things",
-	Summary:      "Create a thing",
-	DefaultStatus: 201,
+ OperationID:  "create-thing",
+ Method:       http.MethodPost,
+ Path:         "/things",
+ Summary:      "Create a thing",
+ DefaultStatus: 201,
 }, func(ctx context.Context, input ThingRequest) (*struct{}, error) {
-	// Do nothing...
-	return nil, nil
+ // Do nothing...
+ return nil, nil
 }
 ```
 
@@ -33,24 +33,24 @@ If the response code needs to be **dynamic**, you can use the special `Status` f
 
 ```go title="code.go"
 type ThingResponse struct {
-	Status int
+ Status int
 }
 
 huma.Register(api, huma.Operation{
-	OperationID:  "get-thing",
-	Method:       http.MethodGet,
-	Path:         "/things/{thing-id}",
-	Summary:      "Get a thing by ID",
+ OperationID:  "get-thing",
+ Method:       http.MethodGet,
+ Path:         "/things/{thing-id}",
+ Summary:      "Get a thing by ID",
 }, func(ctx context.Context, input ThingRequest) (*struct{}, error) {
-	// Create a response and set the dynamic status
-	resp := &ThingResponse{}
-	if input.ID < 500 {
-		resp.Status = 200
-	} else {
-		// This is a made-up status code used for newer things.
-		resp.Status = 250
-	}
-	return resp, nil
+ // Create a response and set the dynamic status
+ resp := &ThingResponse{}
+ if input.ID < 500 {
+  resp.Status = 200
+ } else {
+  // This is a made-up status code used for newer things.
+  resp.Status = 250
+ }
+ return resp, nil
 }
 ```
 
@@ -72,9 +72,9 @@ Here's an example of a response with several headers of different types:
 ```go title="code.go"
 // Example struct with several headers
 type MyOutput struct {
-	ContentType  string    `header:"Content-Type"`
-	LastModified time.Time `header:"Last-Modified"`
-	MyHeader     int       `header:"My-Header"`
+ ContentType  string    `header:"Content-Type"`
+ LastModified time.Time `header:"Last-Modified"`
+ MyHeader     int       `header:"My-Header"`
 }
 ```
 
@@ -86,7 +86,7 @@ By default, headers are set on the response, which overwrites any existing heade
 
 ```go title="code.go"
 type MyOutput struct {
-	MyHeader []string `header:"My-Header"`
+ MyHeader []string `header:"My-Header"`
 }
 ```
 
@@ -98,23 +98,23 @@ You can set cookies in the response by using the [`Set-Cookie`](https://develope
 
 ```go title="code.go"
 type MyOutput struct {
-	SetCookie http.Cookie `header:"Set-Cookie"`
+ SetCookie http.Cookie `header:"Set-Cookie"`
 }
 
 huma.Register(api, huma.Operation{
-	OperationID: "set-cookie",
-	Method:      http.MethodGet,
-	Path:        "/set-cookie",
-	Summary:     "Set a cookie",
+ OperationID: "set-cookie",
+ Method:      http.MethodGet,
+ Path:        "/set-cookie",
+ Summary:     "Set a cookie",
 }, func(ctx context.Context, *struct{}) (*MyOutput, error) {
-	// Create a response and set the cookie
-	resp := &MyOutput{
-		SetCookie: http.Cookie{
-			Name:  "session",
-			Value: "123",
-		},
-	}
-	return resp, nil
+ // Create a response and set the cookie
+ resp := &MyOutput{
+  SetCookie: http.Cookie{
+   Name:  "session",
+   Value: "123",
+  },
+ }
+ return resp, nil
 }
 ```
 
@@ -128,11 +128,11 @@ Example:
 
 ```go title="code.go" hl_lines="6"
 type MyBody struct {
-	Name string `json:"name"`
+ Name string `json:"name"`
 }
 
 type MyOutput struct {
-	Body MyBody
+ Body MyBody
 }
 ```
 
@@ -140,7 +140,7 @@ Use a type of `[]byte` to bypass [serialization](./response-serialization.md).
 
 ```go title="code.go"
 type MyOutput struct {
-	Body []byte
+ Body []byte
 }
 ```
 
@@ -148,8 +148,8 @@ You can also stream the response body, see [streaming](./response-streaming.md) 
 
 ## Dive Deeper
 
--   Reference
-    -   [`huma.Register`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Register) registers new operations
-    -   [`huma.Operation`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#Operation) the operation
--   External Links
-    -   [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+- Reference
+  - [`huma.Register`](https://pkg.go.dev/github.com/ross96D/huma#Register) registers new operations
+  - [`huma.Operation`](https://pkg.go.dev/github.com/ross96D/huma#Operation) the operation
+- External Links
+  - [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)

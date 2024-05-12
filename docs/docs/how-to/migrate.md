@@ -4,7 +4,7 @@ description: Migrate your code from Huma v1 to Huma v2 in a few simple steps.
 
 # Migrating From Huma V1
 
-1. Import `github.com/danielgtaylor/huma/v2` instead of `github.com/danielgtaylor/huma`.
+1. Import `github.com/ross96D/huma` instead of `github.com/danielgtaylor/huma`.
 1. Use the `humachi.NewV4` adapter as Huma v1 uses Chi v4 under the hood
 1. Attach your middleware to the `chi` instance.
 1. Replace resource & operation creation with `huma.Register`

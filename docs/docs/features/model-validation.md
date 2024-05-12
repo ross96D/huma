@@ -10,8 +10,8 @@ Huma includes a utility to make it a little easier to validate models outside of
 
 ```go title="code.go"
 type MyExample struct {
-	Name string `json:"name" maxLength:"5"`
-	Age int `json:"age" minimum:"25"`
+ Name string `json:"name" maxLength:"5"`
+ Age int `json:"age" minimum:"25"`
 }
 
 var value any
@@ -20,7 +20,7 @@ json.Unmarshal([]byte(`{"name": "abcdefg", "age": 1}`), &value)
 validator := huma.ModelValidator()
 errs := validator.Validate(reflect.TypeOf(MyExample{}), value)
 if errs != nil {
-	fmt.Println("Validation error", errs)
+ fmt.Println("Validation error", errs)
 }
 ```
 
@@ -30,10 +30,10 @@ if errs != nil {
 
 ## Dive Deeper
 
--   Reference
-    -   [`huma.ModelValidator`](https://pkg.go.dev/github.com/danielgtaylor/huma/v2#ModelValidator) the model validator utility
--   External Links
-    -   [JSON Schema spec](https://json-schema.org/)
-    -   [OpenAPI 3.1 spec](https://spec.openapis.org/oas/v3.1.0)
--   See Also
-    -   [Config & OpenAPI](./openapi-generation.md)
+- Reference
+  - [`huma.ModelValidator`](https://pkg.go.dev/github.com/ross96D/huma#ModelValidator) the model validator utility
+- External Links
+  - [JSON Schema spec](https://json-schema.org/)
+  - [OpenAPI 3.1 spec](https://spec.openapis.org/oas/v3.1.0)
+- See Also
+  - [Config & OpenAPI](./openapi-generation.md)

@@ -7,4 +7,4 @@ cd my-api
 go mod init github.com/my-user/my-api
 
 # Install Huma
-go get github.com/danielgtaylor/huma/v2
+go get github.com/ross96D/huma

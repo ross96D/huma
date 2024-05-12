@@ -1,12 +1,12 @@
 <a href="#">
-	<picture>
-		<source media="(prefers-color-scheme: dark)" srcset="https://huma.rocks/huma-dark.png" />
-		<source media="(prefers-color-scheme: light)" srcset="https://huma.rocks/huma.png" />
-		<img alt="Huma Logo" src="https://huma.rocks/huma.png" />
-	</picture>
+ <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://huma.rocks/huma-dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="https://huma.rocks/huma.png" />
+  <img alt="Huma Logo" src="https://huma.rocks/huma.png" />
+ </picture>
 </a>
 
-[![HUMA Powered](https://img.shields.io/badge/Powered%20By-HUMA-f40273)](https://huma.rocks/) [![CI](https://github.com/danielgtaylor/huma/workflows/CI/badge.svg?branch=main)](https://github.com/danielgtaylor/huma/actions?query=workflow%3ACI+branch%3Amain++) [![codecov](https://codecov.io/gh/danielgtaylor/huma/branch/main/graph/badge.svg)](https://codecov.io/gh/danielgtaylor/huma) [![Docs](https://godoc.org/github.com/danielgtaylor/huma/v2?status.svg)](https://pkg.go.dev/github.com/danielgtaylor/huma/v2?tab=doc) [![Go Report Card](https://goreportcard.com/badge/github.com/danielgtaylor/huma/v2)](https://goreportcard.com/report/github.com/danielgtaylor/huma/v2)
+[![HUMA Powered](https://img.shields.io/badge/Powered%20By-HUMA-f40273)](https://huma.rocks/) [![CI](https://github.com/danielgtaylor/huma/workflows/CI/badge.svg?branch=main)](https://github.com/danielgtaylor/huma/actions?query=workflow%3ACI+branch%3Amain++) [![codecov](https://codecov.io/gh/danielgtaylor/huma/branch/main/graph/badge.svg)](https://codecov.io/gh/danielgtaylor/huma) [![Docs](https://godoc.org/github.com/ross96D/huma?status.svg)](https://pkg.go.dev/github.com/ross96D/huma?tab=doc) [![Go Report Card](https://goreportcard.com/badge/github.com/ross96D/huma)](https://goreportcard.com/report/github.com/ross96D/huma)
 
 [**🌎English Documentation**](./README.md)
 
@@ -56,7 +56,7 @@
   - 使用[API Sprout](https://github.com/danielgtaylor/apisprout)或[Prism进行模拟](https://stoplight.io/open-source/prism)
   - [带有OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator)或[oapi-codegen 的](https://github.com/deepmap/oapi-codegen)SDK
   - CLI 与[Restish](https://rest.sh/)
-  - 还有[更多](https://openapi.tools/) 
+  - 还有[更多](https://openapi.tools/)
 - 使用可选`describedby`链接关系标头以及`$schema`返回对象中的可选属性为每个资源生成 JSON 架构，这些属性集成到编辑器中以进行验证和完成。
 
 该项目的灵感来自[FastAPI](https://fastapi.tiangolo.com/)。标志和品牌由卡里·泰勒设计。
@@ -87,7 +87,7 @@
 
 ```sh
 # After: go mod init ...
-go get -u github.com/danielgtaylor/huma/v2
+go get -u github.com/ross96D/huma
 ```
 
 # 例子
@@ -98,54 +98,54 @@ go get -u github.com/danielgtaylor/huma/v2
 package main
 
 import (
-	"context"
-	"fmt"
-	"net/http"
+ "context"
+ "fmt"
+ "net/http"
 
-	"github.com/danielgtaylor/huma/v2"
-	"github.com/danielgtaylor/huma/v2/adapters/humachi"
-	"github.com/danielgtaylor/huma/v2/humacli"
-	"github.com/go-chi/chi/v5"
+ "github.com/ross96D/huma"
+ "github.com/ross96D/huma/adapters/humachi"
+ "github.com/ross96D/huma/humacli"
+ "github.com/go-chi/chi/v5"
 
-	_ "github.com/danielgtaylor/huma/v2/formats/cbor"
+ _ "github.com/ross96D/huma/formats/cbor"
 )
 
 // Options for the CLI. Pass `--port` or set the `SERVICE_PORT` env var.
 type Options struct {
-	Port int `help:"Port to listen on" short:"p" default:"8888"`
+ Port int `help:"Port to listen on" short:"p" default:"8888"`
 }
 
 // GreetingOutput represents the greeting operation response.
 type GreetingOutput struct {
-	Body struct {
-		Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
-	}
+ Body struct {
+  Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
+ }
 }
 
 func main() {
-	// Create a CLI app which takes a port option.
-	cli := humacli.New(func(hooks humacli.Hooks, options *Options) {
-		// Create a new router & API
-		router := chi.NewMux()
-		api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
+ // Create a CLI app which takes a port option.
+ cli := humacli.New(func(hooks humacli.Hooks, options *Options) {
+  // Create a new router & API
+  router := chi.NewMux()
+  api := humachi.New(router, huma.DefaultConfig("My API", "1.0.0"))
 
-		// Add the operation handler to the API.
-		huma.Get(api, "/greeting/{name}", func(ctx context.Context, input *struct{
-			Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
-		}) (*GreetingOutput, error) {
-			resp := &GreetingOutput{}
-			resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
-			return resp, nil
-		})
+  // Add the operation handler to the API.
+  huma.Get(api, "/greeting/{name}", func(ctx context.Context, input *struct{
+   Name string `path:"name" maxLength:"30" example:"world" doc:"Name to greet"`
+  }) (*GreetingOutput, error) {
+   resp := &GreetingOutput{}
+   resp.Body.Message = fmt.Sprintf("Hello, %s!", input.Name)
+   return resp, nil
+  })
 
-		// Tell the CLI how to start your router.
-		hooks.OnStart(func() {
-			http.ListenAndServe(fmt.Sprintf(":%d", options.Port), router)
-		})
-	})
+  // Tell the CLI how to start your router.
+  hooks.OnStart(func() {
+   http.ListenAndServe(fmt.Sprintf(":%d", options.Port), router)
+  })
+ })
 
-	// Run the CLI. When passed no commands, it starts the server.
-	cli.Run()
+ // Run the CLI. When passed no commands, it starts the server.
+ cli.Run()
 }
 ```
 
@@ -160,20 +160,20 @@ $ restish :8888/greeting/world
 HTTP/1.1 200 OK
 ...
 {
-	$schema: "http://localhost:8888/schemas/GreetingOutputBody.json",
-	message: "Hello, world!"
+ $schema: "http://localhost:8888/schemas/GreetingOutputBody.json",
+ message: "Hello, world!"
 }
 ```
 
-尽管示例很小，您也可以在http://localhost:8888/docs上看到一些生成的文档。生成的 OpenAPI 可在http://localhost:8888/openapi.json或http://localhost:8888/openapi.yaml获取。
+尽管示例很小，您也可以在<http://localhost:8888/docs上看到一些生成的文档。生成的> OpenAPI 可在<http://localhost:8888/openapi.json或http://localhost:8888/openapi.yaml获取。>
 
 查看[Huma 教程](https://huma.rocks/tutorial/installation/)，获取入门分步指南。
 
 # 文档
 
-请参阅https://huma.rocks/网站，获取演示文稿中的完整文档，该演示文稿比本自述文件更易于导航和搜索。您可以在`docs`此存储库的目录中找到该站点的源代码。
+请参阅<https://huma.rocks/网站，获取演示文稿中的完整文档，该演示文稿比本自述文件更易于导航和搜索。您可以在`docs`此存储库的目录中找到该站点的源代码。>
 
-官方 Go 包文档始终可以在 https://pkg.go.dev/github.com/danielgtaylor/huma/v2 找到。
+官方 Go 包文档始终可以在 <https://pkg.go.dev/github.com/ross96D/huma> 找到。
 
 # 文章和提及
 
@@ -187,9 +187,9 @@ HTTP/1.1 200 OK
 如果您觉得该项目有用，请务必为该项目加注星标！
 
 <a href="https://star-history.com/#danielgtaylor/huma&Date">
-	<picture>
-		<source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date&theme=dark" />
-		<source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date" />
-		<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date" />
-	</picture>
+ <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date" />
+  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=danielgtaylor/huma&type=Date" />
+ </picture>
 </a>
